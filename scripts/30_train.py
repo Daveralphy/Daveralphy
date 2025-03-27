@@ -41,7 +41,7 @@ out_dir = "output directory goes here"
 parser = argparse.ArgumentParser(description="Train a model to identify recurring transactions.")
 parser.add_argument("--f", help="ignore; used by ipykernel_launcher")
 parser.add_argument("--input", type=str, default=in_path, help="Path to the input CSV file containing transactions.")
-parser.add_argument("--output", type=str, default=out_dir, help="Path to the output directory.")
+parser.add_argument("--output", type=str, default=output_dir, help="Path to the output directory.")
 args = parser.parse_args()
 in_path = args.input
 out_dir = args.output
