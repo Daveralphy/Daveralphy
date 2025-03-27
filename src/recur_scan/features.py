@@ -2,6 +2,8 @@ import re
 from datetime import date, datetime
 from functools import lru_cache
 
+import numpy as np
+
 from recur_scan.transactions import Transaction
 
 
@@ -12,6 +14,35 @@ def get_is_always_recurring(transaction: Transaction) -> bool:
         "netflix",
         "hulu",
         "spotify",
+        "amazon prime",
+        "apple music",
+        "microsoft 365",
+        "dropbox",
+        "adobe creative cloud",
+        "discord nitro",
+        "zoom subscription",
+        "patreon",
+        "new york times",
+        "wall street journal",
+        "github copilot",
+        "notion",
+        "evernote",
+        "expressvpn",
+        "nordvpn",
+        "youtube premium",
+        "linkedin premium",
+        "at&t",
+        "afterpay",
+        "amazon+",
+        "walmart+",
+        "amazonprime",
+        "t-mobile",
+        "duke energy",
+        "adobe",
+        "charter comm",
+        "boostmobile",
+        "verizon",
+        "disney+",
     }
     return transaction.name.lower() in always_recurring_vendors
 
@@ -110,8 +141,7 @@ def get_pct_transactions_same_day(
 
 
 def get_ends_in_99(transaction: Transaction) -> bool:
-    """Check if the transaction amount ends in 99"""
-    return (transaction.amount * 100) % 100 == 99
+    return round(transaction.amount * 100) % 100 == 99
 
 
 def get_n_transactions_same_amount(transaction: Transaction, all_transactions: list[Transaction]) -> int:
@@ -123,8 +153,30 @@ def get_percent_transactions_same_amount(transaction: Transaction, all_transacti
     """Get the percentage of transactions in all_transactions with the same amount as transaction"""
     if not all_transactions:
         return 0.0
-    n_same_amount = len([t for t in all_transactions if t.amount == transaction.amount])
-    return n_same_amount / len(all_transactions)
+    return len([t for t in all_transactions if t.amount == transaction.amount]) / len(all_transactions)
+
+
+# New Features
+
+
+def get_transaction_frequency(transaction: Transaction, all_transactions: list[Transaction]) -> int:
+    return sum(1 for t in all_transactions if t.name.lower() == transaction.name.lower())
+
+
+def get_amount_std_dev(transaction: Transaction, all_transactions: list[Transaction]) -> float:
+    amounts = [t.amount for t in all_transactions if t.name.lower() == transaction.name.lower()]
+    return float(np.std(amounts)) if amounts else 0.0
+
+
+def get_median_transaction_amount(transaction: Transaction, all_transactions: list[Transaction]) -> float:
+    """Compute the median transaction amount for the same vendor."""
+    amounts = [t.amount for t in all_transactions if t.name.lower() == transaction.name.lower()]
+    return float(np.median(amounts)) if amounts else 0.0
+
+
+def get_is_weekend_transaction(transaction: Transaction) -> bool:
+    """Check if the transaction occurred on a weekend."""
+    return _parse_date(transaction.date).weekday() >= 5  # Saturday (5) or Sunday (6)
 
 
 def get_features(transaction: Transaction, all_transactions: list[Transaction]) -> dict[str, float | int]:
@@ -138,15 +190,19 @@ def get_features(transaction: Transaction, all_transactions: list[Transaction]) 
         "same_day_off_by_1": get_n_transactions_same_day(transaction, all_transactions, 1),
         "same_day_off_by_2": get_n_transactions_same_day(transaction, all_transactions, 2),
         "14_days_apart_exact": get_n_transactions_days_apart(transaction, all_transactions, 14, 0),
-        "pct_14_days_apart_exact": get_pct_transactions_days_apart(transaction, all_transactions, 14, 0),
+       # "pct_14_days_apart_exact": get_pct_transactions_days_apart(transaction, all_transactions, 14, 0),
         "14_days_apart_off_by_1": get_n_transactions_days_apart(transaction, all_transactions, 14, 1),
-        "pct_14_days_apart_off_by_1": get_pct_transactions_days_apart(transaction, all_transactions, 14, 1),
+       # "pct_14_days_apart_off_by_1": get_pct_transactions_days_apart(transaction, all_transactions, 14, 1),
         "7_days_apart_exact": get_n_transactions_days_apart(transaction, all_transactions, 7, 0),
-        "pct_7_days_apart_exact": get_pct_transactions_days_apart(transaction, all_transactions, 7, 0),
+        #"pct_7_days_apart_exact": get_pct_transactions_days_apart(transaction, all_transactions, 7, 0),
         "7_days_apart_off_by_1": get_n_transactions_days_apart(transaction, all_transactions, 7, 1),
-        "pct_7_days_apart_off_by_1": get_pct_transactions_days_apart(transaction, all_transactions, 7, 1),
+      #  "pct_7_days_apart_off_by_1": get_pct_transactions_days_apart(transaction, all_transactions, 7, 1),
         "is_insurance": get_is_insurance(transaction),
         "is_utility": get_is_utility(transaction),
         "is_phone": get_is_phone(transaction),
         "is_always_recurring": get_is_always_recurring(transaction),
+        "transaction_frequency": get_transaction_frequency(transaction, all_transactions),
+        "amount_std_dev": get_amount_std_dev(transaction, all_transactions),
+        "median_transaction_amount": get_median_transaction_amount(transaction, all_transactions),
+        "is_weekend_transaction": get_is_weekend_transaction(transaction),
     }
