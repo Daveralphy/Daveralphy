@@ -1,3 +1,4 @@
+import difflib
 import re
 from datetime import date, datetime
 from functools import lru_cache
@@ -127,6 +128,69 @@ def get_percent_transactions_same_amount(transaction: Transaction, all_transacti
     return n_same_amount / len(all_transactions)
 
 
+###
+
+
+def get_is_common_subscription_amount(transaction):
+    """Returns True if the amount is a common subscription price."""
+    common_amounts = {4.99, 5.99, 9.99, 12.99, 14.99, 19.99, 49.99, 99.99}
+    return transaction.amount in common_amounts
+
+
+def get_occurs_same_week(transaction, transactions):
+    """Checks if the transaction occurs in the same week of the month across multiple months."""
+    transaction_date = datetime.strptime(transaction.date, "%Y-%m-%d")
+    transaction_week = transaction_date.day // 7  # Determine which week in the month (0-4)
+
+    same_week_count = sum(
+        1
+        for t in transactions
+        if t.name == transaction.name and datetime.strptime(t.date, "%Y-%m-%d").day // 7 == transaction_week
+    )
+
+    return same_week_count >= 2  # True if found at least twice
+
+
+def get_is_similar_name(transaction, transactions, similarity_threshold=0.8):
+    """Checks if a transaction has a similar name to other past transactions."""
+    for t in transactions:
+        similarity = difflib.SequenceMatcher(None, transaction.name.lower(), t.name.lower()).ratio()
+        if similarity >= similarity_threshold:
+            return True  # If a close match is found, return True
+    return False
+
+
+def get_is_fixed_interval(transaction, transactions):
+    """Returns True if a transaction recurs at fixed intervals (weekly, bi-weekly, monthly)."""
+    transaction_dates = sorted([
+        datetime.strptime(t.date, "%Y-%m-%d") for t in transactions if t.name == transaction.name
+    ])
+
+    for i in range(1, len(transaction_dates)):
+        days_diff = (transaction_dates[i] - transaction_dates[i - 1]).days
+        if days_diff in {7, 14, 30}:
+            return True  # Matches a common fixed interval
+
+    return False
+
+
+def get_has_irregular_spike(transaction, transactions, threshold=1.5):
+    """Checks if a transaction has an amount that is significantly higher than usual."""
+    amounts = [t.amount for t in transactions if t.name == transaction.name]
+
+    if len(amounts) < 3:
+        return False  # Need at least 3 transactions for comparison
+
+    avg_amount = sum(amounts) / len(amounts)
+    return transaction.amount >= avg_amount * threshold  # True if 50% higher than average
+
+
+def get_is_first_of_month(transaction):
+    """Returns True if the transaction occurs on the 1st of any month."""
+    return transaction.date.endswith("-01")
+
+
+###
 def get_features(transaction: Transaction, all_transactions: list[Transaction]) -> dict[str, float | int]:
     return {
         "n_transactions_same_amount": get_n_transactions_same_amount(transaction, all_transactions),
@@ -149,4 +213,11 @@ def get_features(transaction: Transaction, all_transactions: list[Transaction]) 
         "is_utility": get_is_utility(transaction),
         "is_phone": get_is_phone(transaction),
         "is_always_recurring": get_is_always_recurring(transaction),
+        # Newly Added Features
+        "is_common_subscription_amount": get_is_common_subscription_amount(transaction),
+        "occurs_same_week": get_occurs_same_week(transaction, all_transactions),
+        "is_similar_name": get_is_similar_name(transaction, all_transactions),
+        "is_fixed_interval": get_is_fixed_interval(transaction, all_transactions),
+        "has_irregular_spike": get_has_irregular_spike(transaction, all_transactions),
+        "is_first_of_month": get_is_first_of_month(transaction),
     }
