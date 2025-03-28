@@ -128,13 +128,13 @@ def get_percent_transactions_same_amount(transaction: Transaction, all_transacti
     return n_same_amount / len(all_transactions)
 
 
-def get_is_common_subscription_amount(transaction):
+def get_is_common_subscription_amount(transaction: Transaction) -> bool:
     """Returns True if the amount is a common subscription price."""
     common_amounts = {4.99, 5.99, 9.99, 12.99, 14.99, 19.99, 49.99, 99.99}
     return transaction.amount in common_amounts
 
 
-def get_occurs_same_week(transaction, transactions):
+def get_occurs_same_week(transaction: Transaction, transactions: list[Transaction]) -> bool:
     """Checks if the transaction occurs in the same week of the month across multiple months."""
     transaction_date = datetime.strptime(transaction.date, "%Y-%m-%d")
     transaction_week = transaction_date.day // 7  # Determine which week in the month (0-4)
@@ -148,7 +148,9 @@ def get_occurs_same_week(transaction, transactions):
     return same_week_count >= 2  # True if found at least twice
 
 
-def get_is_similar_name(transaction, transactions, similarity_threshold=0.8):
+def get_is_similar_name(
+    transaction: Transaction, transactions: list[Transaction], similarity_threshold: float = 0.8
+) -> bool:
     """Checks if a transaction has a similar name to other past transactions."""
     for t in transactions:
         similarity = difflib.SequenceMatcher(None, transaction.name.lower(), t.name.lower()).ratio()
@@ -157,7 +159,7 @@ def get_is_similar_name(transaction, transactions, similarity_threshold=0.8):
     return False
 
 
-def get_is_fixed_interval(transaction, transactions):
+def get_is_fixed_interval(transaction: Transaction, transactions: list[Transaction]) -> bool:
     """Returns True if a transaction recurs at fixed intervals (weekly, bi-weekly, monthly)."""
     transaction_dates = sorted([
         datetime.strptime(t.date, "%Y-%m-%d") for t in transactions if t.name == transaction.name
@@ -171,7 +173,7 @@ def get_is_fixed_interval(transaction, transactions):
     return False
 
 
-def get_has_irregular_spike(transaction, transactions, threshold=1.5):
+def get_has_irregular_spike(transaction: Transaction, transactions: list[Transaction], threshold: float = 1.5) -> bool:
     """Checks if a transaction has an amount that is significantly higher than usual."""
     amounts = [t.amount for t in transactions if t.name == transaction.name]
 
@@ -182,7 +184,7 @@ def get_has_irregular_spike(transaction, transactions, threshold=1.5):
     return transaction.amount >= avg_amount * threshold  # True if 50% higher than average
 
 
-def get_is_first_of_month(transaction):
+def get_is_first_of_month(transaction: Transaction) -> bool:
     """Returns True if the transaction occurs on the 1st of any month."""
     return transaction.date.endswith("-01")
 
