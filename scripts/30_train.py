@@ -30,11 +30,12 @@ from recur_scan.transactions import group_transactions, read_labeled_transaction
 
 n_cv_folds = 3  # number of cross-validation folds, could be 5
 do_hyperparameter_optimization = False  # set to False to use the default hyperparameters
+do_hyperparameter_optimization = True  # set to False to use the default hyperparameters
 n_hpo_iters = 20  # number of hyperparameter optimization iterations
 n_jobs = -1  # number of jobs to run in parallel (set to 1 if your laptop gets too hot)
 
-in_path = "training file goes here"
-out_dir = "output directory goes here"
+in_path = "/mnt/c/Users/Clack/Documents/precious - labeler_33.csv"
+out_dir = "/mnt/c/Users/Clack/Documents/precious_output_transactions.csv"
 
 # %%
 # parse script arguments from command line
@@ -84,39 +85,37 @@ logger.info(f"Converted {len(features)} features into a {X.shape} matrix")
 # HYPERPARAMETER OPTIMIZATION
 #
 
-if do_hyperparameter_optimization:
-    # Define parameter grid
-    param_dist = {
-        "n_estimators": [10, 20, 50, 100, 200, 500, 1000],
-        "max_depth": [10, 20, 30, None],
-        "min_samples_split": [2, 5, 10, 20, 50],
-        "min_samples_leaf": [1, 2, 4],
-        "max_features": ["sqrt", "log2", None],
-        "bootstrap": [True, False],
-    }
+# Define parameter grid
+param_dist = {
+    "n_estimators": [100, 200, 500, 1000],
+    "max_depth": [10, 20, 30, None],
+    "min_samples_split": [2, 5, 10],
+    "min_samples_leaf": [1, 2, 4],
+    "max_features": ["sqrt", "log2", None],
+    "bootstrap": [True, False],
+}
 
-    # Random search
-    model = RandomForestClassifier(random_state=42, n_jobs=n_jobs)
-    random_search = RandomizedSearchCV(
-        model, param_dist, n_iter=n_hpo_iters, cv=n_cv_folds, scoring="f1", n_jobs=n_jobs, verbose=3
-    )
-    random_search.fit(X, y)
+# Random search
+model = RandomForestClassifier(random_state=42)
+random_search = RandomizedSearchCV(
+    model, param_dist, n_iter=n_hpo_iters, cv=n_cv_folds, scoring="f1", n_jobs=-1, verbose=1
+)
+random_search.fit(X, y)
 
-    print("Best Hyperparameters:")
-    for param, value in random_search.best_params_.items():
-        print(f"  {param}: {value}")
+print("Best Hyperparameters:")
+for param, value in random_search.best_params_.items():
+    print(f"  {param}: {value}")
 
-    best_params = random_search.best_params_
-else:
-    # default hyperparameters
-    best_params = {
-        "n_estimators": 100,
-        "min_samples_split": 10,
-        "min_samples_leaf": 1,
-        "max_features": "sqrt",
-        "max_depth": None,
-        "bootstrap": False,
-    }
+best_params = random_search.best_params_
+# default hyperparameters
+best_params = {
+    "n_estimators": 100,
+    "min_samples_split": 10,
+    "min_samples_leaf": 1,
+    "max_features": "sqrt",
+    "max_depth": None,
+    "bootstrap": False,
+}
 
 # %%
 #
