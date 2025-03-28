@@ -55,27 +55,17 @@ def get_n_transactions_days_apart(
 ) -> int:
     """
     Get the number of transactions in all_transactions that are within n_days_off of
-    being n_days_apart from transaction
+    being n_days_apart from transaction.
     """
     n_txs = 0
     transaction_date = _parse_date(transaction.date)
-
-    # Pre-calculate bounds for faster checking
-    lower_remainder = n_days_apart - n_days_off
-    upper_remainder = n_days_off
 
     for t in all_transactions:
         t_date = _parse_date(t.date)
         days_diff = abs((t_date - transaction_date).days)
 
-        # Skip if the difference is less than minimum required
-        if days_diff < n_days_apart - n_days_off:
-            continue
-
-        # Check if the difference is close to any multiple of n_days_apart
-        remainder = days_diff % n_days_apart
-
-        if remainder <= upper_remainder or remainder >= lower_remainder:
+        # Check if the difference is within the range of n_days_apart ± n_days_off
+        if n_days_apart - n_days_off <= days_diff <= n_days_apart + n_days_off:
             n_txs += 1
 
     return n_txs
@@ -99,8 +89,19 @@ def _get_day(date: str) -> int:
 
 
 def get_n_transactions_same_day(transaction: Transaction, all_transactions: list[Transaction], n_days_off: int) -> int:
-    """Get the number of transactions in all_transactions that are on the same day of the month as transaction"""
-    return len([t for t in all_transactions if abs(_get_day(t.date) - _get_day(transaction.date)) <= n_days_off])
+    """
+    Get the number of transactions in all_transactions that are on the same day of the month
+    as transaction, within a tolerance of ±n_days_off.
+    """
+    transaction_day = _get_day(transaction.date)
+    return len([
+        t
+        for t in all_transactions
+        if abs(_get_day(t.date) - transaction_day) <= n_days_off
+        and t.user_id == transaction.user_id  # Ensure the transaction belongs to the same user
+        and t.name == transaction.name  # Ensure the transaction has the same name
+        and t.date != transaction.date  # Exclude the transaction itself
+    ])
 
 
 def get_pct_transactions_same_day(
@@ -149,7 +150,7 @@ def get_occurs_same_week(transaction: Transaction, transactions: list[Transactio
 
 
 def get_is_similar_name(
-    transaction: Transaction, transactions: list[Transaction], similarity_threshold: float = 0.8
+    transaction: Transaction, transactions: list[Transaction], similarity_threshold: float = 0.6
 ) -> bool:
     """Checks if a transaction has a similar name to other past transactions."""
     for t in transactions:
@@ -159,34 +160,41 @@ def get_is_similar_name(
     return False
 
 
-def get_is_fixed_interval(transaction: Transaction, transactions: list[Transaction]) -> bool:
+def get_is_fixed_interval(transaction: Transaction, transactions: list[Transaction], margin: int = 1) -> bool:
     """Returns True if a transaction recurs at fixed intervals (weekly, bi-weekly, monthly)."""
     transaction_dates = sorted([
         datetime.strptime(t.date, "%Y-%m-%d") for t in transactions if t.name == transaction.name
     ])
 
-    for i in range(1, len(transaction_dates)):
-        days_diff = (transaction_dates[i] - transaction_dates[i - 1]).days
-        if days_diff in {7, 14, 30}:
-            return True  # Matches a common fixed interval
+    if len(transaction_dates) < 2:
+        return False  # Not enough transactions to determine intervals
 
-    return False
+    intervals = [(transaction_dates[i] - transaction_dates[i - 1]).days for i in range(1, len(transaction_dates))]
+    return all(abs(interval - 30) <= margin for interval in intervals)  # Allow ±1 day for monthly intervals
 
 
 def get_has_irregular_spike(transaction: Transaction, transactions: list[Transaction], threshold: float = 1.5) -> bool:
     """Checks if a transaction has an amount that is significantly higher than usual."""
     amounts = [t.amount for t in transactions if t.name == transaction.name]
 
-    if len(amounts) < 3:
-        return False  # Need at least 3 transactions for comparison
+    if not amounts:
+        return False  # No transactions to compare against
 
     avg_amount = sum(amounts) / len(amounts)
-    return transaction.amount >= avg_amount * threshold  # True if 50% higher than average
+    return transaction.amount > avg_amount * threshold  # True if 50% higher than average
 
 
 def get_is_first_of_month(transaction: Transaction) -> bool:
-    """Returns True if the transaction occurs on the 1st of any month."""
-    return transaction.date.endswith("-01")
+    """
+    Checks if a transaction occurs on the first day of the month.
+
+    Args:
+        transaction (Transaction): The transaction to check.
+
+    Returns:
+        bool: True if the transaction occurs on the first day of the month, False otherwise.
+    """
+    return transaction.date.split("-")[2] == "01"
 
 
 ###
