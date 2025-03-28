@@ -128,9 +128,6 @@ def get_percent_transactions_same_amount(transaction: Transaction, all_transacti
     return n_same_amount / len(all_transactions)
 
 
-###
-
-
 def get_is_common_subscription_amount(transaction):
     """Returns True if the amount is a common subscription price."""
     common_amounts = {4.99, 5.99, 9.99, 12.99, 14.99, 19.99, 49.99, 99.99}
