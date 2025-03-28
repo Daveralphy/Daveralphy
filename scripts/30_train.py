@@ -14,7 +14,6 @@ import os
 
 import joblib
 import matplotlib.pyplot as plt
-import shap
 from loguru import logger
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.feature_extraction import DictVectorizer
@@ -33,8 +32,8 @@ do_hyperparameter_optimization = False  # set to False to use the default hyperp
 n_hpo_iters = 20  # number of hyperparameter optimization iterations
 n_jobs = -1  # number of jobs to run in parallel (set to 1 if your laptop gets too hot)
 
-in_path = "training file goes here"
-out_dir = "output directory goes here"
+in_path = "spreadsheet2.csv"
+out_dir = "."
 
 # %%
 # parse script arguments from command line
@@ -57,6 +56,7 @@ os.makedirs(out_dir, exist_ok=True)
 # read labeled transactions
 
 transactions, y = read_labeled_transactions(in_path)
+print(vars(transactions[0]))
 logger.info(f"Read {len(transactions)} transactions with {len(y)} labels")
 
 # %%
@@ -129,6 +129,18 @@ logger.info("Training the model")
 model = RandomForestClassifier(random_state=42, **best_params, n_jobs=n_jobs)
 model.fit(X, y)
 logger.info("Model trained")
+
+model = RandomForestClassifier(
+    n_estimators=100, max_depth=10, random_state=42, class_weight="balanced", **best_params, n_jobs=n_jobs
+)
+# model = RandomForestClassifier(random_state=42, **best_params, n_jobs=n_jobs)
+model.fit(X, y)
+logger.info("Model trained")
+# Assuming X and y are your features and labels
+proba = model.predict_proba(X)[:, 1]  # Probability of "recurring"
+print(f"Max probability: {proba.max()}, Min probability: {proba.min()}")
+print(f"Number of predictions above 0.9999: {(proba >= 0.9999).sum()}")
+y_pred = (proba >= 0.9).astype(int)  # Higher threshold for precision
 
 # %%
 # review feature importances
@@ -251,14 +263,13 @@ write_transactions(os.path.join(out_dir, "variance_errors.csv"), misclassified, 
 # create a tree explainer
 # explainer = shap.TreeExplainer(model)
 # Faster approximation using PermutationExplainer
-X_sample = X[:10000]  # type: ignore
-explainer = shap.explainers.Permutation(model.predict, X_sample)
+# X_sample = X[:100]
+# explainer = shap.explainers.Permutation(model.predict, X_sample)
+# logger.info("Calculating SHAP values")
+# shap_values = explainer.shap_values(X_sample)
 
-logger.info("Calculating SHAP values")
-shap_values = explainer.shap_values(X_sample)
-
-# Plot SHAP summary
-shap.summary_plot(shap_values, X_sample, feature_names=feature_names)
+# # Plot SHAP summary
+# shap.summary_plot(shap_values, X_sample, feature_names=feature_names)
 
 # %%
 #

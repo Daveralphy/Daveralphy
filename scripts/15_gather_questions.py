@@ -34,8 +34,8 @@ questions: dict[str, list[tuple[str, float, str]]] = {}
 for file in files:
     # print the filename and the number of labels
     logger.info(f"Processing {file}")
+    df = None  # Initialize df to avoid unbound error
     # First try reading without specifying dtype for amount to see which rows fail conversion (if any)
-    df: pd.DataFrame | None = None
     try:
         df = pd.read_csv(os.path.join(input_dir, file))
         # Now attempt to convert amount column to float to find problematic row
@@ -43,8 +43,8 @@ for file in files:
     except ValueError as e:
         logger.error(f"Error converting amount to float in file {file}:")
         logger.error(e)
-        # Get the problematic rows
-        if df is not None:
+        if df is not None:  # Ensure df is not None before accessing it
+            # Get the problematic rows
             mask = pd.to_numeric(df["amount"], errors="coerce").isna()
             logger.error("\nProblematic rows:")
             logger.error(df[mask])
