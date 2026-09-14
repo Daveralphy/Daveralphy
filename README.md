@@ -1,68 +1,156 @@
+<div align="center">
+
 # Raphael Daveal Eferire
 
-**Software Engineer | Full-Stack, AI, and Product Design**
+### Software Engineer · Full-Stack · AI · Product Design
 
-I am a software engineer focused on building complete digital products from idea to deployment. I work across web development, mobile development, AI integration, backend systems, and product design.
+**I build digital products from idea to interface to code to deployment.**
 
-I enjoy turning practical problems into simple, usable software and working across the product lifecycle, from planning and interface design in Figma to development, integration, and deployment.
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/daveralphy/)
+[![Portfolio](https://img.shields.io/badge/Portfolio-Explore-111827?style=for-the-badge&logo=googlechrome&logoColor=white)](https://github.com/Daveralphy/e-portfolio)
+[![Email](https://img.shields.io/badge/Email-Contact-EA4335?style=for-the-badge&logo=gmail&logoColor=white)](mailto:raphaeldaveal@gmail.com)
 
-## Skills and Technologies
+</div>
 
-### Development
-- JavaScript / TypeScript
-- Python
-- React / Next.js
-- Flutter
-- C# / .NET
-- SQL and databases
-- REST APIs
+---
 
-### Engineering
-- Full-stack web development
-- Mobile application development
-- Backend development and deployment
-- AI and machine learning integration
-- Automation and workflow development
-- Git and GitHub
+## `> whoami`
 
-### Product and Design
-- UI/UX design
-- Figma
-- Product thinking
-- Technical documentation
+I am a software engineer who enjoys turning practical problems into usable digital products. My work spans **web applications, mobile products, AI systems, backend development, and UI/UX design**.
 
-## Featured Projects
+I like working across the full product process: understanding the problem, designing the experience, building the system, connecting the pieces, and getting it ready for real users.
 
-### WindVeal
-Software engineering work focused on building digital products across web, mobile, and AI.
+### Current Focus
 
-**Focus:** Full-Stack Development, Product Engineering, AI, Mobile
+```text
+01  Full-Stack Product Development
+02  AI-Powered Applications
+03  Mobile Application Development
+04  Backend Systems & APIs
+05  Product Design & UI/UX
+```
 
-### Recur Scan
-A machine learning project that detects recurring financial transactions using pattern recognition and classification techniques.
+---
 
-**Focus:** Python, Machine Learning, Financial Data
+## `> tech_stack`
 
-### E-Portfolio
-A personal portfolio web application built with React, React Router, and custom CSS to showcase projects, skills, and professional experience.
+### Languages
 
-**Focus:** React, JavaScript, React Router, UI/UX
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=000000)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
+![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![CSharp](https://img.shields.io/badge/C%23-512BD4?style=for-the-badge&logo=csharp&logoColor=white)
+![SQL](https://img.shields.io/badge/SQL-336791?style=for-the-badge&logo=postgresql&logoColor=white)
 
-### VealBiz
-A business-focused software project within the WindVeal ecosystem.
+### Frameworks & Development
 
-**Focus:** Web Development, Product Development
+![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
+![Flutter](https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white)
+![.NET](https://img.shields.io/badge/.NET-512BD4?style=for-the-badge&logo=dotnet&logoColor=white)
+![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white)
+![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)
 
-## GitHub Statistics
+### Product & Design
 
-![GitHub Stats](https://github-readme-stats.vercel.app/api?username=Daveralphy&show_icons=true&hide_border=true)
+![Figma](https://img.shields.io/badge/Figma-F24E1E?style=for-the-badge&logo=figma&logoColor=white)
+![UI UX](https://img.shields.io/badge/UI%2FUX-Design-8B5CF6?style=for-the-badge)
+![APIs](https://img.shields.io/badge/REST-APIs-0F766E?style=for-the-badge)
+![AI](https://img.shields.io/badge/AI-Integration-111827?style=for-the-badge)
 
-![Top Languages](https://github-readme-stats.vercel.app/api/top-langs/?username=Daveralphy&layout=compact&hide_border=true)
+---
 
-## Connect With Me
+## `> selected_work`
 
-- **LinkedIn:** https://www.linkedin.com/in/daveralphy/
-- **GitHub:** https://github.com/Daveralphy
-- **Email:** raphaeldaveal@gmail.com
+These are selected product projects and experiments from my development work. Some are actively being developed, while others are prototypes or work in progress.
 
-Thanks for visiting my profile. Feel free to explore my repositories and projects.
+| Project | What I am building | Area | Status |
+|:---|:---|:---:|:---:|
+| **[WindVeal](https://github.com/Daveralphy/WindVeal)** | Product engineering work across web, mobile, and AI | Full-Stack · Product | 🟢 Active |
+| **[VealBiz](https://github.com/Daveralphy/VealBiz)** | Applicant tracking and business workflow system | SaaS · Backend | 🟡 In Progress |
+| **[Matchet Marketplace](https://github.com/Daveralphy/matchet-marketplace)** | Marketplace experience connecting users around products and services | Full-Stack · Marketplace | 🟡 In Progress |
+| **[Idris Academy](https://github.com/Daveralphy/idris_academy)** | Digital platform for an academy and learning experience | Web · Education | 🟡 In Progress |
+| **[WindVeal Chatbot](https://github.com/Daveralphy/windvealchatbot)** | Conversational AI experiment within the WindVeal ecosystem | AI · Chatbot | 🟡 Prototype |
+| **STANDIAG Auto** | Automotive diagnostic product concept and development work | Automotive · Software | 🟡 Private |
+
+---
+
+## `> product_map`
+
+```text
+                         RAPHAEL DAVEAL
+                              │
+             ┌────────────────┼────────────────┐
+             │                │                │
+          PRODUCTS           AI             DESIGN
+             │                │                │
+       ┌─────┼─────┐      Chatbots       Figma / UI
+       │     │     │      AI Features    UX Systems
+    VealBiz Matchet WindVeal
+       │     │     │
+       └─────┴─────┘
+              │
+        DIGITAL PRODUCTS
+              │
+      Web · Mobile · Backend
+```
+
+---
+
+## `> github_dashboard`
+
+<table>
+<tr>
+<td width="50%">
+
+<img src="https://github-readme-stats.vercel.app/api?username=Daveralphy&show_icons=true&hide_border=true&include_all_commits=true&count_private=true" alt="GitHub Stats" />
+
+</td>
+<td width="50%">
+
+<img src="https://github-readme-stats.vercel.app/api/top-langs/?username=Daveralphy&layout=compact&hide_border=true&langs_count=8" alt="Top Languages" />
+
+</td>
+</tr>
+</table>
+
+<div align="center">
+
+![GitHub Streak](https://github-readme-streak-stats.herokuapp.com/?user=Daveralphy&hide_border=true)
+
+</div>
+
+---
+
+## `> how_i_build`
+
+| Stage | Focus |
+|:---:|:---|
+| `01` | **Understand** the problem and users |
+| `02` | **Design** the experience and system |
+| `03` | **Build** the product and core features |
+| `04` | **Integrate** APIs, data, and AI where useful |
+| `05` | **Test** the experience and improve it |
+| `06` | **Deploy** and prepare for real users |
+
+---
+
+## `> connect`
+
+<div align="center">
+
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Raphael%20Daveal-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/daveralphy/)
+[![GitHub](https://img.shields.io/badge/GitHub-Daveralphy-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Daveralphy)
+[![Email](https://img.shields.io/badge/Email-raphaeldaveal-EA4335?style=for-the-badge&logo=gmail&logoColor=white)](mailto:raphaeldaveal@gmail.com)
+
+**Building something interesting? Let's talk.**
+
+</div>
+
+---
+
+<div align="center">
+
+`Software Engineering` · `AI` · `Product Development` · `Design`
+
+</div>
