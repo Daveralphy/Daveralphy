@@ -116,9 +116,11 @@ These are selected product projects and experiments from my development work. So
 
 <div align="center">
 
-![GitHub Streak](https://github-readme-streak-stats.herokuapp.com/?user=Daveralphy&hide_border=true)
+[![GitHub Streak](https://streak-stats.demolab.com/?user=Daveralphy&hide_border=true)](https://github.com/DenverCoder1/github-readme-streak-stats)
 
 </div>
+
+> The statistics cards above are generated dynamically from GitHub activity. The public GitHub Readme Stats service documents these exact endpoints, while the streak card now uses the maintained `streak-stats.demolab.com` endpoint instead of the old Heroku host. citeturn0search4turn0search2
 
 ---
 
