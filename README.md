@@ -99,28 +99,24 @@ These are selected product projects and experiments from my development work. So
 
 ## `> github_dashboard`
 
-<table>
-<tr>
-<td width="50%">
-
-<img src="https://github-readme-stats.vercel.app/api?username=Daveralphy&show_icons=true&hide_border=true&include_all_commits=true&count_private=true" alt="GitHub Stats" />
-
-</td>
-<td width="50%">
-
-<img src="https://github-readme-stats.vercel.app/api/top-langs/?username=Daveralphy&layout=compact&hide_border=true&langs_count=8" alt="Top Languages" />
-
-</td>
-</tr>
-</table>
-
 <div align="center">
 
-[![GitHub Streak](https://streak-stats.demolab.com/?user=Daveralphy&hide_border=true)](https://github.com/DenverCoder1/github-readme-streak-stats)
+![Repositories](https://img.shields.io/badge/Public%20Repositories-40+-181717?style=for-the-badge&logo=github&logoColor=white)
+![Followers](https://img.shields.io/github/followers/Daveralphy?style=for-the-badge&logo=github&logoColor=white&label=Followers)
+![Profile Views](https://komarev.com/ghpvc/?username=Daveralphy&style=for-the-badge&color=0A66C2&label=Profile%20Views)
 
 </div>
 
-> The statistics cards above are generated dynamically from GitHub activity. The public GitHub Readme Stats service documents these exact endpoints, while the streak card now uses the maintained `streak-stats.demolab.com` endpoint instead of the old Heroku host. citeturn0search4turn0search2
+### Contribution Activity
+
+GitHub automatically displays my contribution graph and activity directly on my profile. Rather than relying on third-party statistic cards that can go offline or hit API limits, this profile uses GitHub's own activity graph as the primary activity dashboard.
+
+<div align="center">
+
+[![GitHub](https://img.shields.io/badge/View%20Contribution%20Graph-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Daveralphy)
+[![Repositories](https://img.shields.io/badge/Explore%20Projects-0A66C2?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Daveralphy?tab=repositories)
+
+</div>
 
 ---
 
